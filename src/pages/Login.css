@@ -1,0 +1,12 @@
+.login-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    height: 100%;
+}
+
+h2{
+    text-align: left;
+    margin-bottom: 20px;
+}
