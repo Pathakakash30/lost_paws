@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
+import axios from "axios";
 
 import "./AddPost.css";
 
@@ -13,15 +13,35 @@ const AddPost = (props) => {
       "https://static.vecteezy.com/system/resources/previews/004/343/259/original/cute-puppy-or-dog-cartoon-illustration-animal-raising-hand-wildlife-icon-design-concept-isolated-flat-face-style-free-vector.jpg",
   });
 
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [address, setAddress] = useState("");
+  const [imageUploaded, setImageUploaded] = useState("");
+
   const imageHandler = (event) => {
-    let img = event.target.files[0];
+    let imgUp = event.target.files[0];
     setImg({
-      image: URL.createObjectURL(img),
+      image: URL.createObjectURL(imgUp),
     });
+    setImageUploaded(imgUp.name);
   };
+
+  const submitHandler = async (event) => {
+    event.preventDefault();
+    const response = await axios.post("http://localhost:5000/addpost", {
+      image: imageUploaded,
+      title,
+      description,
+      address,
+      user: "63fc4e4ea797e4b5a19d019b",
+    });
+
+    console.log(response.data);
+  };
+
   return (
     <div className="main-add-form">
-    <h2>Add Post</h2>
+      <h2>Add Post</h2>
       <form className="post-div-form">
         <Avatar
           alt="Remy Sharp"
@@ -64,18 +84,21 @@ const AddPost = (props) => {
           id="outlined-basic"
           label="Title"
           variant="outlined"
+          onChange={(e) => setTitle(e.target.value)}
         />
         <TextField
           sx={{ margin: "7px", width: "90%" }}
           id="outlined-basic"
           label="Description"
           variant="outlined"
+          onChange={(e) => setDescription(e.target.value)}
         />
         <TextField
           sx={{ margin: "7px", width: "90%" }}
           id="outlined-basic"
           label="Location"
           variant="outlined"
+          onChange={(e) => setAddress(e.target.value)}
         />
 
         <Button
@@ -84,8 +107,8 @@ const AddPost = (props) => {
           sx={{
             margin: "7px",
             width: "90%",
-            
           }}
+          onClick={submitHandler}
         >
           POST
         </Button>

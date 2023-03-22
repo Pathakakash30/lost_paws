@@ -26,15 +26,17 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function PostItem() {
+export default function PostItem(props) {
   const [expanded, setExpanded] = React.useState(false);
+
+  const { title, description, address, image } = props.data;
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
   return (
-    <Card sx={{ maxWidth: 648 }}>
+    <Card sx={{ width: "40vw", margin:"4px" }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -46,25 +48,23 @@ export default function PostItem() {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Shrimp and Chorizo Paella"
+        title={title}
         subheader=<p>
           September 14, 2016
           <br />
-          Pinto park
+          {address}
         </p>
       />
 
-      <CardMedia 
+      <CardMedia
         component="img"
         height="330"
-        image="https://www.thetimes.co.uk/imageserver/image/%2Fmethode%2Ftimes%2Fprod%2Fweb%2Fbin%2F54a6f9f2-3369-11e8-8618-4dab5276195d.jpg?crop=3000%2C2000%2C0%2C0"
+        image={image}
         alt="Paella dish"
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
+          {description}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

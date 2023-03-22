@@ -1,0 +1,21 @@
+.login-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  height: 100%;
+  
+}
+
+h2 {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.register-form {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  /* border: 23px solid #1564c0; */
+}
