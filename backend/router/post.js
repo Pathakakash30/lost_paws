@@ -3,8 +3,8 @@ const app = express();
 
 const Post = require("../models/post");
 
-
 app.get("/postsfeed", async (req, res, next) => {
+  console.log("/postfeed");
   let posts;
   try {
     posts = await Post.find();
@@ -14,7 +14,6 @@ app.get("/postsfeed", async (req, res, next) => {
 
   res.json({ posts: posts, status: true });
 });
-
 
 app.post("/addpost", async (req, res, next) => {
   console.log(req.body);

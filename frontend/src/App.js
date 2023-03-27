@@ -5,17 +5,19 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
+import { store } from "./store";
+import { Provider } from "react-redux";
 
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import AddPost from "./pages/AddPost"; 
+import AddPost from "./pages/AddPost";
 import Register from "./pages/Register";
 import "./App.css";
 
 function App() {
   return (
-    <>
+    <Provider store={store}>
       <div>
         <Router>
           <Navbar />
@@ -32,7 +34,7 @@ function App() {
           </main>
         </Router>
       </div>
-    </>
+    </Provider>
   );
 }
 

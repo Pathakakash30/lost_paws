@@ -7,6 +7,9 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Alert } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import { login } from "../reduxSlice/userSlice";
 
 import axios from "axios";
 
@@ -17,9 +20,11 @@ const Login = (props) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
   let response;
+
   const submitForm = async () => {
     response = await axios.post("http://localhost:5000/login", {
       email,
@@ -29,6 +34,9 @@ const Login = (props) => {
     if (response.data.status) {
       navigate("/");
       setError(false);
+
+      dispatch(login(response.data.user));
+      
     } else {
       setError(true);
       setErrorMessage(response.data.message);
@@ -51,7 +59,11 @@ const Login = (props) => {
   return (
     <div className="login-card">
       <Card sx={{ maxWidth: "500px", padding: 0 }}>
-        <form onSubmit={submitHandler}>
+        <form
+          onSubmit={(e) => {
+            submitHandler(e);
+          }}
+        >
           <CardContent sx={{ textAlign: "center" }}>
             <h2>Login...</h2>
             <TextField
