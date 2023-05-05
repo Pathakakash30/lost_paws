@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 
 const Post = require("../models/post");
+const upload = require("../config/imageUploadMiddleware");
 
 app.get("/postsfeed", async (req, res, next) => {
   console.log("/postfeed");
@@ -15,13 +16,13 @@ app.get("/postsfeed", async (req, res, next) => {
   res.json({ posts: posts, status: true });
 });
 
-app.post("/addpost", async (req, res, next) => {
+app.post("/addpost", upload.single("image"), async (req, res, next) => {
   console.log(req.body);
   const { title, address, description, image, user } = req.body;
   let post;
   try {
     post = new Post({
-      image,
+      image: req.file.path,
       title,
       description,
       address,

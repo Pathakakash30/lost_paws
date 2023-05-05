@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
 
@@ -11,8 +13,17 @@ app.post("/login", async (req, res, next) => {
 
     if (user) {
       if (password === user.password) {
+        let token;
+        try {
+          token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+            expiresIn: "4h",
+          });
+        } catch (err) {
+          const error = new Error(err.messgae, 500);
+          return next(error);
+        }
         res.status(201);
-        res.json({ status: true, user: user });
+        res.json({ status: true, name: user.name, token: token });
       } else {
         res.json({ message: "password doesnt match", status: false });
       }
@@ -36,11 +47,14 @@ app.post("/signup", async (req, res, next) => {
   console.log(req.body);
   const { name, email, password, image } = req.body;
   let user;
+
+  var hash = bcrypt.hashSync(password, 10);
+
   try {
     user = new User({
       name,
       email,
-      password,
+      password: hash,
       image,
     });
     await user.save();
@@ -48,7 +62,17 @@ app.post("/signup", async (req, res, next) => {
     res.json({ message: error.message, status: false });
   }
 
-  res.json({ user: user, status: true });
+  let token;
+  try {
+    token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "4h",
+    });
+  } catch (err) {
+    const error = new Error(err.messgae, 500);
+    return next(error);
+  }
+
+  res.json({ token: token, status: true, name: user.name });
 });
 
 module.exports = app;

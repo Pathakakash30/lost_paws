@@ -35,7 +35,7 @@ const Login = (props) => {
       navigate("/");
       setError(false);
 
-      dispatch(login(response.data.user));
+      dispatch(login(response.data));
       
     } else {
       setError(true);

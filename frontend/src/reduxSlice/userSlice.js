@@ -9,14 +9,16 @@ let initialState;
 if (!userInfo) {
   initialState = {
     loginStatus: false,
-    email: null,
-    name: "",
+
+    name: null,
+    token: null,
   };
 } else {
   initialState = {
     loginStatus: userInfo.loginStatus,
-    email: null,
+
     name: userInfo.name,
+    token: userInfo.token,
   };
 }
 
@@ -25,13 +27,22 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     login: (state, { payload }) => {
+      console.log(payload);
       state.loginStatus = true;
       state.name = payload.name;
-      const userInfo = { loginStatus: state.loginStatus, name: state.name };
+      state.token = payload.token;
+      const userInfo = {
+        loginStatus: state.loginStatus,
+        name: state.name,
+        token: state.token,
+      };
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
     },
     logout: (state, payload) => {
       state.loginStatus = false;
+      state.email = null;
+      state.name = "";
+      state.token = "";
     },
   },
 });

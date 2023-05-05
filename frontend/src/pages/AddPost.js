@@ -23,18 +23,22 @@ const AddPost = (props) => {
     setImg({
       image: URL.createObjectURL(imgUp),
     });
-    setImageUploaded(imgUp.name);
+    setImageUploaded(imgUp);
   };
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    const response = await axios.post("http://localhost:5000/addpost", {
-      image: imageUploaded,
-      title,
-      description,
-      address,
-      user: "63fc4e4ea797e4b5a19d019b",
-    });
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("address", address);
+    formData.append("image", imageUploaded);
+    formData.append("user", "63fc4e4ea797e4b5a19d019b");
+
+    const response = await axios.post(
+      "http://localhost:5000/addpost",
+      formData
+    );
 
     console.log(response.data);
   };

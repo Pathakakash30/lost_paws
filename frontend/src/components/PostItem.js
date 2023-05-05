@@ -36,7 +36,7 @@ export default function PostItem(props) {
   };
 
   return (
-    <Card sx={{ width: "40vw", margin:"4px" }}>
+    <Card sx={{ width: "40vw", margin: "4px" }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -59,7 +59,7 @@ export default function PostItem(props) {
       <CardMedia
         component="img"
         height="330"
-        image={image}
+        image={`http://localhost:5000/${image}`}
         alt="Paella dish"
       />
       <CardContent>
